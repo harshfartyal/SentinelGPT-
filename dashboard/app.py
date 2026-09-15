@@ -1,23 +1,11 @@
-# dashboard/app.py
-
 import sys
 from pathlib import Path
 
 import pandas as pd
 import streamlit as st
 
-
-# ============================================================
-# PROJECT PATH
-# ============================================================
-
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
-
-
-# ============================================================
-# PROJECT MODULES
-# ============================================================
 
 from parser.cloudtrail_parser import load_cloudtrail_logs
 
@@ -31,21 +19,10 @@ from detection.threat_detector import (
 
 from risk_engine.risk_score import calculate_risk
 from detection.mitre_mapper import map_to_mitre
-
 from threat_hunting.hunter import hunt_suspicious_ips
+from vulnerability.vulnerability_scanner import scan_vulnerabilities
+from incident_response.responder import generate_response
 
-from vulnerability.vulnerability_scanner import (
-    scan_vulnerabilities
-)
-
-from incident_response.responder import (
-    generate_response
-)
-
-
-# ============================================================
-# PAGE CONFIGURATION
-# ============================================================
 
 st.set_page_config(
     page_title="SentinelGPT SOC",
@@ -53,16 +30,8 @@ st.set_page_config(
     layout="wide"
 )
 
-
-# ============================================================
-# HEADER
-# ============================================================
-
 st.title("🛡️ SentinelGPT")
-
-st.subheader(
-    "AI-Assisted Cloud Security Operations Center"
-)
+st.subheader("AI-Assisted Cloud Security Operations Center")
 
 st.write(
     "Cloud Threat Detection • Threat Hunting • "
@@ -70,12 +39,11 @@ st.write(
 )
 
 
-# ============================================================
-# LOAD CLOUDTRAIL LOGS
-# ============================================================
+# ========================================
+# LOAD LOGS
+# ========================================
 
 try:
-
     logs = load_cloudtrail_logs(
         str(
             PROJECT_ROOT
@@ -99,14 +67,14 @@ st.success(
 )
 
 
-# ============================================================
-# SECURITY SCAN CONTROL
-# ============================================================
+# ========================================
+# SECURITY SCAN
+# ========================================
 
 st.header("🔍 Security Scan")
 
 st.write(
-    "Click the button below to analyze the loaded "
+    "Run the security analysis against the loaded "
     "CloudTrail events."
 )
 
@@ -131,14 +99,12 @@ if not st.session_state.get(
     st.stop()
 
 
-st.success(
-    "Security scan completed."
-)
+st.success("Security scan completed.")
 
 
-# ============================================================
+# ========================================
 # THREAT DETECTION
-# ============================================================
+# ========================================
 
 alerts = []
 
@@ -163,21 +129,17 @@ alerts.extend(
 )
 
 
-# ============================================================
+# ========================================
 # PROCESS ALERTS
-# ============================================================
+# ========================================
 
 processed_alerts = []
 
 for alert in alerts:
 
-    score, severity = calculate_risk(
-        alert
-    )
+    score, severity = calculate_risk(alert)
 
-    mitre_info = map_to_mitre(
-        alert
-    )
+    mitre_info = map_to_mitre(alert)
 
     response_actions = generate_response(
         alert,
@@ -195,27 +157,23 @@ for alert in alerts:
     )
 
 
-# ============================================================
+# ========================================
 # THREAT HUNTING
-# ============================================================
+# ========================================
 
-hunting_results = hunt_suspicious_ips(
-    logs
-)
+hunting_results = hunt_suspicious_ips(logs)
 
 
-# ============================================================
+# ========================================
 # VULNERABILITY ASSESSMENT
-# ============================================================
+# ========================================
 
-vulnerability_findings = scan_vulnerabilities(
-    logs
-)
+vulnerability_findings = scan_vulnerabilities(logs)
 
 
-# ============================================================
-# RISK COUNTS
-# ============================================================
+# ========================================
+# SECURITY METRICS
+# ========================================
 
 high_count = 0
 medium_count = 0
@@ -233,9 +191,9 @@ for item in processed_alerts:
         low_count += 1
 
 
-# ============================================================
+# ========================================
 # SECURITY OVERVIEW
-# ============================================================
+# ========================================
 
 st.header("📊 Security Overview")
 
@@ -265,14 +223,14 @@ with col3:
 with col4:
 
     st.metric(
-        "Vulnerability Findings",
+        "Security Findings",
         len(vulnerability_findings)
     )
 
 
-# ============================================================
-# ALERT SEVERITY CHART
-# ============================================================
+# ========================================
+# ALERT SEVERITY
+# ========================================
 
 st.header("🚨 Alert Severity")
 
@@ -292,15 +250,13 @@ severity_data = pd.DataFrame(
 )
 
 st.bar_chart(
-    severity_data.set_index(
-        "Severity"
-    )
+    severity_data.set_index("Severity")
 )
 
 
-# ============================================================
-# CLOUDTRAIL EVENT TABLE
-# ============================================================
+# ========================================
+# CLOUDTRAIL EVENTS
+# ========================================
 
 st.header("📋 CloudTrail Events")
 
@@ -346,9 +302,7 @@ for log in logs:
     )
 
 
-events_df = pd.DataFrame(
-    event_rows
-)
+events_df = pd.DataFrame(event_rows)
 
 st.dataframe(
     events_df,
@@ -357,9 +311,9 @@ st.dataframe(
 )
 
 
-# ============================================================
+# ========================================
 # THREAT HUNTING
-# ============================================================
+# ========================================
 
 st.header("🔎 Threat Hunting")
 
@@ -367,20 +321,33 @@ if hunting_results:
 
     for result in hunting_results:
 
-        st.warning(
+        with st.expander(
             f"Suspicious IP: "
             f"{result['source_ip']}"
-        )
+        ):
 
-        st.write(
-            f"**Event Count:** "
-            f"{result['event_count']}"
-        )
+            st.write(
+                f"**Event Count:** "
+                f"{result['event_count']}"
+            )
 
-        st.write(
-            f"**Reason:** "
-            f"{result['reason']}"
-        )
+            st.write(
+                "**Events:** "
+                + ", ".join(result["events"])
+            )
+
+            st.write(
+                "**Users:** "
+                + ", ".join(result["users"])
+            )
+
+            st.write("**Reasons:**")
+
+            for reason in result["reasons"]:
+
+                st.write(
+                    f"→ {reason}"
+                )
 
 else:
 
@@ -389,9 +356,9 @@ else:
     )
 
 
-# ============================================================
+# ========================================
 # VULNERABILITY ASSESSMENT
-# ============================================================
+# ========================================
 
 st.header("⚠️ Vulnerability Assessment")
 
@@ -400,17 +367,18 @@ if vulnerability_findings:
     for finding in vulnerability_findings:
 
         with st.expander(
-            finding["type"]
+            f"{finding['severity']} | "
+            f"{finding['type']}"
         ):
-
-            st.write(
-                f"**Severity:** "
-                f"{finding['severity']}"
-            )
 
             st.write(
                 f"**Event:** "
                 f"{finding['event']}"
+            )
+
+            st.write(
+                f"**Username:** "
+                f"{finding['username']}"
             )
 
             st.write(
@@ -423,16 +391,21 @@ if vulnerability_findings:
                 f"{finding['description']}"
             )
 
+            st.write(
+                f"**Recommendation:** "
+                f"{finding['recommendation']}"
+            )
+
 else:
 
     st.success(
-        "No vulnerabilities found."
+        "No security findings found."
     )
 
 
-# ============================================================
+# ========================================
 # SECURITY ALERTS
-# ============================================================
+# ========================================
 
 st.header("🛑 Security Alerts")
 
@@ -452,17 +425,13 @@ if processed_alerts:
 
     for item in processed_alerts:
 
-        if selected_severity == "ALL":
+        if (
+            selected_severity == "ALL"
+            or item["severity"]
+            == selected_severity
+        ):
 
-            displayed_alerts.append(
-                item
-            )
-
-        elif item["severity"] == selected_severity:
-
-            displayed_alerts.append(
-                item
-            )
+            displayed_alerts.append(item)
 
 
     if displayed_alerts:
@@ -510,6 +479,18 @@ if processed_alerts:
                 )
 
                 st.write(
+                    f"**Event:** "
+                    f"{alert.get('event', 'Unknown')}"
+                )
+
+                if "failed_attempts" in alert:
+
+                    st.write(
+                        f"**Failed Attempts:** "
+                        f"{alert['failed_attempts']}"
+                    )
+
+                st.write(
                     f"**Risk Score:** "
                     f"{score}/100"
                 )
@@ -524,10 +505,6 @@ if processed_alerts:
                     f"{alert['description']}"
                 )
 
-
-                # ------------------------------------------------
-                # MITRE ATT&CK
-                # ------------------------------------------------
 
                 st.subheader(
                     "🎯 MITRE ATT&CK"
@@ -554,10 +531,6 @@ if processed_alerts:
                 )
 
 
-                # ------------------------------------------------
-                # INCIDENT RESPONSE
-                # ------------------------------------------------
-
                 st.subheader(
                     "🛡️ Recommended Response"
                 )
@@ -581,13 +554,14 @@ else:
     )
 
 
-# ============================================================
+# ========================================
 # SYSTEM STATUS
-# ============================================================
+# ========================================
 
 st.header("⚙️ System Status")
 
 status_col1, status_col2 = st.columns(2)
+
 
 with status_col1:
 
@@ -607,6 +581,7 @@ with status_col1:
         "MITRE Mapper — ONLINE"
     )
 
+
 with status_col2:
 
     st.success(
@@ -622,13 +597,9 @@ with status_col2:
     )
 
     st.info(
-        "LLM Analyst — Temporarily using local analyst logic"
+        "LLM Analyst — Local analyst logic"
     )
 
-
-# ============================================================
-# FOOTER
-# ============================================================
 
 st.divider()
 

@@ -2,9 +2,9 @@
 
 SentinelGPT is a cloud security monitoring project developed as part of Minor Project-I.
 
-The project analyzes AWS CloudTrail logs and looks for suspicious activities such as unusual login behavior, IAM permission changes, security group modifications, root account activity, and changes to CloudTrail logging.
+The project analyzes AWS CloudTrail logs and identifies suspicious cloud activities such as unusual authentication behavior, IAM permission changes, security group modifications, root account activity, and CloudTrail logging changes.
 
-It also assigns a risk score, maps alerts to MITRE ATT&CK techniques, performs basic threat hunting, and provides recommended response actions.
+It also performs basic threat hunting and security-risk assessment, assigns risk scores, maps alerts to MITRE ATT&CK techniques, and generates recommended incident response actions.
 
 ## Features
 
@@ -13,16 +13,16 @@ It also assigns a risk score, maps alerts to MITRE ATT&CK techniques, performs b
 - IAM privilege change detection
 - Security group change detection
 - Root account activity detection
-- CloudTrail logging change detection
+- CloudTrail logging modification detection
 - Rule-based risk scoring
 - MITRE ATT&CK mapping
-- Basic IP-based threat hunting
-- Basic vulnerability/security-risk checks
+- IP-based threat hunting
+- Basic vulnerability/security-risk assessment
 - Incident response recommendations
-- Streamlit dashboard
-- Automated tests using pytest
+- Streamlit security dashboard
+- Automated testing using pytest
 
-## How it works
+## How It Works
 
 CloudTrail Logs
       ↓
@@ -89,13 +89,13 @@ SentinelGPT/
 - MITRE ATT&CK
 - Pytest
 
-## Running the project
+## Running the Project
 
-Install the dependencies:
+Install dependencies:
 
 python -m pip install -r requirements.txt
 
-Run the main analysis:
+Run the command-line analysis:
 
 python main.py
 
@@ -103,15 +103,9 @@ Run the dashboard:
 
 python -m streamlit run dashboard\app.py
 
-Run the tests:
+Run automated tests:
 
 python -m pytest
-
-## Current Testing
-
-The project currently contains automated tests for the main detection and risk-scoring functions.
-
-8 tests currently pass.
 
 ## Current Data
 
@@ -119,33 +113,42 @@ The current version uses a manually created CloudTrail-formatted JSON file for t
 
 The logs are simulated data and are not collected from a live AWS account.
 
-Live AWS CloudTrail integration can be added in a future version.
+## Current Detection Approach
+
+The current security detection system uses rule-based logic.
+
+It checks predefined CloudTrail events and activity patterns to identify potentially suspicious behavior.
+
+Risk scoring is also rule-based, with different risk weights assigned to different alert types.
+
+The LLM analyst component currently uses local analyst logic. Actual LLM API integration can be added later.
 
 ## Limitations
 
-This is currently a prototype for academic and learning purposes.
+This is a prototype developed for academic and learning purposes.
 
-Some of the detection and vulnerability checks are rule-based and use a limited set of CloudTrail events. The threat-hunting functionality is also basic at this stage.
+The current implementation uses simulated CloudTrail data and a limited number of detection rules.
 
-The LLM analyst component is currently implemented with local analysis logic. Actual LLM API integration is planned for a later stage.
+Threat hunting and vulnerability assessment are also basic and can be expanded in future versions.
 
 ## Future Improvements
 
 - Live AWS CloudTrail integration
 - More CloudTrail detection rules
-- Better threat-hunting capabilities
+- Advanced threat hunting
 - Threat intelligence integration
-- More detailed vulnerability assessment
+- More detailed cloud security assessment
 - Persistent storage
-- LLM-assisted security analysis
-- Support for additional cloud platforms
+- LLM API integration
+- Support for AWS, Azure and GCP
+- Improved security analytics
 
 ## Project
 
 Harsh Fartyal
 
-
 ## Disclaimer
 
-This project is developed for academic and educational purposes. The current implementation uses simulated CloudTrail data and should not be considered a production SOC system.
+This project is developed for academic and educational purposes.
 
+The current implementation uses simulated CloudTrail data and should not be considered a production SOC system.
