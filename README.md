@@ -140,20 +140,10 @@ The LLM analyst component is currently implemented with local analysis logic. Ac
 - LLM-assisted security analysis
 - Support for additional cloud platforms
 
-## Project Team
+## Project
 
 Harsh Fartyal
-24BTCSECS0020
 
-Gunank Dutt Tiwari
-24BTCSEAI0114
-
-Suyash Bisht
-24BTCSEAI0121
-
-Supervisor:
-Mr. Anubhav Singh Bisht
-Assistant Professor
 
 ## Disclaimer
 
