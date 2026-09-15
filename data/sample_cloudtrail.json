@@ -66,6 +66,20 @@
     },
     {
       "eventTime": "2026-08-26T10:20:00Z",
+      "eventName": "ConsoleLogin",
+      "eventSource": "signin.amazonaws.com",
+      "awsRegion": "ap-south-1",
+      "sourceIPAddress": "10.0.0.25",
+      "userIdentity": {
+        "type": "Root",
+        "userName": "Root"
+      },
+      "responseElements": {
+        "ConsoleLogin": "Success"
+      }
+    },
+    {
+      "eventTime": "2026-08-26T10:21:00Z",
       "eventName": "StopLogging",
       "eventSource": "cloudtrail.amazonaws.com",
       "awsRegion": "ap-south-1",
@@ -76,17 +90,14 @@
       }
     },
     {
-      "eventTime": "2026-08-26T10:21:00Z",
-      "eventName": "ConsoleLogin",
-      "eventSource": "signin.amazonaws.com",
+      "eventTime": "2026-08-26T10:22:00Z",
+      "eventName": "PutEventSelectors",
+      "eventSource": "cloudtrail.amazonaws.com",
       "awsRegion": "ap-south-1",
-      "sourceIPAddress": "103.25.67.42",
+      "sourceIPAddress": "185.220.101.15",
       "userIdentity": {
-        "type": "Root",
-        "userName": "Root"
-      },
-      "responseElements": {
-        "ConsoleLogin": "Success"
+        "type": "IAMUser",
+        "userName": "test-user"
       }
     }
   ]
