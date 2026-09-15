@@ -1,6 +1,31 @@
 {
   "Records": [
     {
+      "eventTime": "2026-08-26T10:00:00Z",
+      "eventName": "ConsoleLogin",
+      "eventSource": "signin.amazonaws.com",
+      "awsRegion": "ap-south-1",
+      "sourceIPAddress": "103.21.45.10",
+      "userIdentity": {
+        "type": "IAMUser",
+        "userName": "alice"
+      },
+      "responseElements": {
+        "ConsoleLogin": "Success"
+      }
+    },
+    {
+      "eventTime": "2026-08-26T10:05:00Z",
+      "eventName": "ListBuckets",
+      "eventSource": "s3.amazonaws.com",
+      "awsRegion": "ap-south-1",
+      "sourceIPAddress": "103.21.45.10",
+      "userIdentity": {
+        "type": "IAMUser",
+        "userName": "alice"
+      }
+    },
+    {
       "eventTime": "2026-08-26T10:15:00Z",
       "eventName": "ConsoleLogin",
       "eventSource": "signin.amazonaws.com",
@@ -98,6 +123,61 @@
       "userIdentity": {
         "type": "IAMUser",
         "userName": "test-user"
+      }
+    },
+    {
+      "eventTime": "2026-08-26T10:25:00Z",
+      "eventName": "GetObject",
+      "eventSource": "s3.amazonaws.com",
+      "awsRegion": "ap-south-1",
+      "sourceIPAddress": "103.21.45.10",
+      "userIdentity": {
+        "type": "IAMUser",
+        "userName": "alice"
+      }
+    },
+    {
+      "eventTime": "2026-08-26T10:30:00Z",
+      "eventName": "DescribeInstances",
+      "eventSource": "ec2.amazonaws.com",
+      "awsRegion": "ap-south-1",
+      "sourceIPAddress": "103.21.45.10",
+      "userIdentity": {
+        "type": "IAMUser",
+        "userName": "alice"
+      }
+    },
+    {
+      "eventTime": "2026-08-26T10:35:00Z",
+      "eventName": "PutUserPolicy",
+      "eventSource": "iam.amazonaws.com",
+      "awsRegion": "ap-south-1",
+      "sourceIPAddress": "45.77.12.90",
+      "userIdentity": {
+        "type": "IAMUser",
+        "userName": "admin-test"
+      }
+    },
+    {
+      "eventTime": "2026-08-26T10:36:00Z",
+      "eventName": "AuthorizeSecurityGroupEgress",
+      "eventSource": "ec2.amazonaws.com",
+      "awsRegion": "ap-south-1",
+      "sourceIPAddress": "45.77.12.90",
+      "userIdentity": {
+        "type": "IAMUser",
+        "userName": "admin-test"
+      }
+    },
+    {
+      "eventTime": "2026-08-26T10:40:00Z",
+      "eventName": "DescribeSecurityGroups",
+      "eventSource": "ec2.amazonaws.com",
+      "awsRegion": "ap-south-1",
+      "sourceIPAddress": "45.77.12.90",
+      "userIdentity": {
+        "type": "IAMUser",
+        "userName": "admin-test"
       }
     }
   ]
