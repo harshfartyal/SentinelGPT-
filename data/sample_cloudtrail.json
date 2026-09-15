@@ -1,0 +1,93 @@
+{
+  "Records": [
+    {
+      "eventTime": "2026-08-26T10:15:00Z",
+      "eventName": "ConsoleLogin",
+      "eventSource": "signin.amazonaws.com",
+      "awsRegion": "ap-south-1",
+      "sourceIPAddress": "185.220.101.15",
+      "userIdentity": {
+        "type": "IAMUser",
+        "userName": "test-user"
+      },
+      "responseElements": {
+        "ConsoleLogin": "Failure"
+      }
+    },
+    {
+      "eventTime": "2026-08-26T10:16:00Z",
+      "eventName": "ConsoleLogin",
+      "eventSource": "signin.amazonaws.com",
+      "awsRegion": "ap-south-1",
+      "sourceIPAddress": "185.220.101.15",
+      "userIdentity": {
+        "type": "IAMUser",
+        "userName": "test-user"
+      },
+      "responseElements": {
+        "ConsoleLogin": "Failure"
+      }
+    },
+    {
+      "eventTime": "2026-08-26T10:17:00Z",
+      "eventName": "ConsoleLogin",
+      "eventSource": "signin.amazonaws.com",
+      "awsRegion": "ap-south-1",
+      "sourceIPAddress": "185.220.101.15",
+      "userIdentity": {
+        "type": "IAMUser",
+        "userName": "test-user"
+      },
+      "responseElements": {
+        "ConsoleLogin": "Success"
+      }
+    },
+    {
+      "eventTime": "2026-08-26T10:18:00Z",
+      "eventName": "AttachUserPolicy",
+      "eventSource": "iam.amazonaws.com",
+      "awsRegion": "ap-south-1",
+      "sourceIPAddress": "185.220.101.15",
+      "userIdentity": {
+        "type": "IAMUser",
+        "userName": "test-user"
+      }
+    },
+    {
+      "eventTime": "2026-08-26T10:19:00Z",
+      "eventName": "AuthorizeSecurityGroupIngress",
+      "eventSource": "ec2.amazonaws.com",
+      "awsRegion": "ap-south-1",
+      "sourceIPAddress": "185.220.101.15",
+      "userIdentity": {
+        "type": "IAMUser",
+        "userName": "test-user"
+      }
+    },
+    {
+      "eventTime": "2026-08-26T10:20:00Z",
+      "eventName": "StopLogging",
+      "eventSource": "cloudtrail.amazonaws.com",
+      "awsRegion": "ap-south-1",
+      "sourceIPAddress": "185.220.101.15",
+      "userIdentity": {
+        "type": "IAMUser",
+        "userName": "test-user"
+      }
+    },
+    {
+      "eventTime": "2026-08-26T10:21:00Z",
+      "eventName": "ConsoleLogin",
+      "eventSource": "signin.amazonaws.com",
+      "awsRegion": "ap-south-1",
+      "sourceIPAddress": "103.25.67.42",
+      "userIdentity": {
+        "type": "Root",
+        "userName": "Root"
+      },
+      "responseElements": {
+        "ConsoleLogin": "Success"
+      }
+    }
+  ]
+}
