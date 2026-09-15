@@ -1,5 +1,3 @@
-# main.py
-
 from parser.cloudtrail_parser import load_cloudtrail_logs
 
 from detection.threat_detector import (
@@ -23,15 +21,19 @@ print("       SENTINELGPT SECURITY SOC")
 print("========================================")
 
 
+# ========================================
+# LOAD CLOUDTRAIL LOGS
+# ========================================
+
 logs = load_cloudtrail_logs("data/sample_cloudtrail.json")
 
 print("\nCloudTrail logs loaded successfully!")
 print("Total events:", len(logs))
 
 
-# ==============================
+# ========================================
 # THREAT HUNTING
-# ==============================
+# ========================================
 
 hunting_results = hunt_suspicious_ips(logs)
 
@@ -39,18 +41,36 @@ print("\nThreat Hunting Results")
 print("----------------------")
 
 if hunting_results:
+
     for result in hunting_results:
+
         print("\n🔎 SUSPICIOUS IP")
+
         print("Source IP:", result["source_ip"])
         print("Event Count:", result["event_count"])
-        print("Reason:", result["reason"])
+
+        print("Reasons:")
+        for reason in result["reasons"]:
+            print("→", reason)
+
+        print(
+            "Events:",
+            ", ".join(result["events"])
+        )
+
+        print(
+            "Users:",
+            ", ".join(result["users"])
+        )
+
 else:
+
     print("No suspicious IP activity found.")
 
 
-# ==============================
+# ========================================
 # VULNERABILITY ASSESSMENT
-# ==============================
+# ========================================
 
 vulnerability_findings = scan_vulnerabilities(logs)
 
@@ -58,20 +78,29 @@ print("\nVulnerability Assessment")
 print("------------------------")
 
 if vulnerability_findings:
+
     for finding in vulnerability_findings:
+
         print("\n⚠️ VULNERABILITY FINDING")
+
         print("Type:", finding["type"])
         print("Severity:", finding["severity"])
         print("Event:", finding["event"])
         print("Source IP:", finding["source_ip"])
-        print("Description:", finding["description"])
+
+        print(
+            "Description:",
+            finding["description"]
+        )
+
 else:
+
     print("No vulnerabilities found.")
 
 
-# ==============================
+# ========================================
 # THREAT DETECTION
-# ==============================
+# ========================================
 
 alerts = detect_suspicious_login(logs)
 
@@ -99,46 +128,88 @@ if alerts:
         print("\n🚨 SECURITY ALERT")
 
         print("Type:", alert["type"])
-        print("Username:", alert["username"])
-        print("Source IP:", alert["source_ip"])
+
+        print(
+            "Username:",
+            alert.get("username", "Unknown")
+        )
+
+        print(
+            "Source IP:",
+            alert.get("source_ip", "Unknown")
+        )
 
         if "failed_attempts" in alert:
-            print("Failed Attempts:", alert["failed_attempts"])
+
+            print(
+                "Failed Attempts:",
+                alert["failed_attempts"]
+            )
 
         if "event" in alert:
-            print("Event:", alert["event"])
 
-        print("Description:", alert["description"])
+            print(
+                "Event:",
+                alert["event"]
+            )
+
+        print(
+            "Description:",
+            alert["description"]
+        )
 
 
-        # ==============================
+        # ========================================
         # RISK SCORING
-        # ==============================
+        # ========================================
 
         score, severity = calculate_risk(alert)
 
-        print("Risk Score:", score, "/ 100")
-        print("Severity:", severity)
+        print(
+            "Risk Score:",
+            score,
+            "/ 100"
+        )
+
+        print(
+            "Severity:",
+            severity
+        )
 
 
-        # ==============================
-        # MITRE ATT&CK
-        # ==============================
+        # ========================================
+        # MITRE ATT&CK MAPPING
+        # ========================================
 
         mitre_info = map_to_mitre(alert)
 
         print("\nMITRE ATT&CK Mapping")
         print("--------------------")
 
-        print("Technique ID:", mitre_info["technique_id"])
-        print("Technique:", mitre_info["technique"])
-        print("Tactic:", mitre_info["tactic"])
-        print("Reason:", mitre_info["reason"])
+        print(
+            "Technique ID:",
+            mitre_info["technique_id"]
+        )
+
+        print(
+            "Technique:",
+            mitre_info["technique"]
+        )
+
+        print(
+            "Tactic:",
+            mitre_info["tactic"]
+        )
+
+        print(
+            "Reason:",
+            mitre_info["reason"]
+        )
 
 
-        # ==============================
+        # ========================================
         # LLM SECURITY ANALYST
-        # ==============================
+        # ========================================
 
         analysis = analyze_incident(
             alert,
@@ -150,15 +221,30 @@ if alerts:
         print("\nLLM Security Analyst")
         print("--------------------")
 
-        print("Summary:", analysis["summary"])
-        print("Risk:", analysis["risk"])
-        print("MITRE:", analysis["mitre"])
-        print("Recommendation:", analysis["recommendation"])
+        print(
+            "Summary:",
+            analysis["summary"]
+        )
+
+        print(
+            "Risk:",
+            analysis["risk"]
+        )
+
+        print(
+            "MITRE:",
+            analysis["mitre"]
+        )
+
+        print(
+            "Recommendation:",
+            analysis["recommendation"]
+        )
 
 
-        # ==============================
+        # ========================================
         # INCIDENT RESPONSE
-        # ==============================
+        # ========================================
 
         response_actions = generate_response(
             alert,
@@ -169,11 +255,18 @@ if alerts:
         print("-----------------")
 
         for action in response_actions:
+
             print("→", action)
 
+
 else:
+
     print("No suspicious activity detected.")
 
+
+# ========================================
+# COMPLETE
+# ========================================
 
 print("\n========================================")
 print("       SENTINELGPT ANALYSIS COMPLETE")
